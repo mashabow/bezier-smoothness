@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Bezier.css';
+import styles from './Bezier.module.scss';
 
 type Point = [number, number];
 
@@ -8,7 +8,7 @@ type Point = [number, number];
 const Handle: React.FC<{p: Point, c: Point}> = ({p, c}) => {
   const rectSize = 5;
   return (
-    <g className="Handle">
+    <g className={styles.Handle}>
       <line
         x1={p[0]} y1={p[1]}
         x2={c[0]} y2={c[1]}
@@ -28,7 +28,7 @@ const Handle: React.FC<{p: Point, c: Point}> = ({p, c}) => {
 // 始点 p0, 制御点 c0, c1, 終点 p1 によって定義される 3 次ベジエ曲線
 const Bezier: React.FC<{p0: Point, c0: Point, c1: Point, p1: Point}> = ({p0, c0, c1, p1}) => {
   return (
-    <g className="Bezier">
+    <g className={styles.Bezier}>
       <path
         d={`M ${p0} C ${c0} ${c1} ${p1}`}
       />

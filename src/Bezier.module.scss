@@ -1,0 +1,22 @@
+.Handle {
+  line {
+    stroke: #ccc;
+  }
+
+  rect {
+    fill: white;
+    stroke: black;
+  }
+
+  circle {
+    fill: white;
+    stroke: #999;
+  }
+}
+
+.Bezier {
+  path {
+    fill: none;
+    stroke: black;
+  }
+}
