@@ -5,8 +5,10 @@ type BezierPoints = {[name in PointName]: Point};
 
 export type State = {
   bezier: BezierPoints;
+  draggingPoint: PointName | null;
 };
 
 export type Action = {
-  type: string;
+  type: 'DRAG_START';
+  payload: PointName;
 };

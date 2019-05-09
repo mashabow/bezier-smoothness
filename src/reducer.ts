@@ -7,10 +7,16 @@ export const initialState: State = {
     c1: [300, 200],
     p1: [400, 100],
   },
+  draggingPoint: null,
 };
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case 'DRAG_START':
+      return {
+        ...state,
+        draggingPoint: action.payload,
+      };
     default:
       return state
   }
