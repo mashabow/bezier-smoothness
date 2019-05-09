@@ -17,6 +17,11 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         draggingPoint: action.payload,
       };
+    case 'DRAG_END':
+      return {
+        ...state,
+        draggingPoint: null,
+      };
     default:
       return state
   }

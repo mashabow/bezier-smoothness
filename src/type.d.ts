@@ -11,4 +11,6 @@ export type State = {
 export type Action = {
   type: 'DRAG_START';
   payload: PointName;
+} | {
+  type: 'DRAG_END';
 };
