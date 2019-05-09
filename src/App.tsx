@@ -10,12 +10,7 @@ const App: React.FC = () => {
     <Provider>
       <div className={styles.App}>
         <svg width="500" height="500">
-          <Bezier
-            p0={state.p0}
-            c0={state.c0}
-            c1={state.c1}
-            p1={state.p1}
-          />
+          <Bezier {...state.bezier} />
         </svg>
       </div>
     </Provider>

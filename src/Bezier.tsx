@@ -1,8 +1,7 @@
 import React from 'react';
 
+import { Point, BezierPoints } from './type';
 import styles from './Bezier.module.scss';
-
-export type Point = [number, number];
 
 // 端点 p から制御点 c へと伸びるハンドル。両点も描画する
 const Handle: React.FC<{p: Point, c: Point}> = ({p, c}) => {
@@ -26,7 +25,7 @@ const Handle: React.FC<{p: Point, c: Point}> = ({p, c}) => {
 };
 
 // 始点 p0, 制御点 c0, c1, 終点 p1 によって定義される 3 次ベジエ曲線
-const Bezier: React.FC<{p0: Point, c0: Point, c1: Point, p1: Point}> = ({p0, c0, c1, p1}) => {
+const Bezier: React.FC<BezierPoints> = ({p0, c0, c1, p1}) => {
   return (
     <g className={styles.Bezier}>
       <path

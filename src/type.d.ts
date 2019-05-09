@@ -1,0 +1,12 @@
+export type Point = [number, number];
+type PointName = 'p0' | 'c0' | 'c1' | 'p1';
+
+type BezierPoints = {[name in PointName]: Point};
+
+export type State = {
+  bezier: BezierPoints;
+};
+
+export type Action = {
+  type: string;
+};
