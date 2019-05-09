@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './Bezier.module.scss';
 
-type Point = [number, number];
+export type Point = [number, number];
 
 // 端点 p から制御点 c へと伸びるハンドル。両点も描画する
 const Handle: React.FC<{p: Point, c: Point}> = ({p, c}) => {
