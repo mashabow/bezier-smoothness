@@ -17,14 +17,23 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         draggingPoint: action.payload,
       };
+    case 'DRAG':
+      if (!state.draggingPoint) break;
+      return {
+        ...state,
+        bezier: {
+          ...state.bezier,
+          [state.draggingPoint]: action.payload,
+        },
+      };
     case 'DRAG_END':
       return {
         ...state,
         draggingPoint: null,
       };
-    default:
-      return state
+    default: break;
   }
+  return state;
 }
 
 export default reducer;

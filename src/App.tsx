@@ -6,17 +6,28 @@ import styles from './App.module.scss';
 
 const App: React.FC = () => {
   const {state, dispatch} = useContext(Store);
+  const dispatchDrag = useCallback(
+    (e: React.MouseEvent) => dispatch({
+      type: 'DRAG',
+      payload: [e.clientX, e.clientY],
+    }),
+    [dispatch],
+  );
   const dispatchDragEnd = useCallback(
-    () => state.draggingPoint && dispatch({type: 'DRAG_END'}),
-    [dispatch, state.draggingPoint],
+    () => dispatch({type: 'DRAG_END'}),
+    [dispatch],
   );
   
   return (
     <div 
       className={styles.App}
-      onMouseUp={dispatchDragEnd}
+      onMouseMove={state.draggingPoint ? dispatchDrag : undefined}
+      onMouseUp={state.draggingPoint ? dispatchDragEnd : undefined}
     >
-      <svg width="500" height="500">
+      <svg
+        width="500"
+        height="500"
+      >
         <Bezier {...state.bezier} />
       </svg>
     </div>

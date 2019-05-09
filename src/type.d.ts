@@ -12,5 +12,8 @@ export type Action = {
   type: 'DRAG_START';
   payload: PointName;
 } | {
+  type: 'DRAG',
+  payload: Point,
+} | {
   type: 'DRAG_END';
 };
