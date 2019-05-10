@@ -4,7 +4,9 @@ type PointName = 'p0' | 'c0' | 'c1' | 'p1';
 type BezierPoints = {[name in PointName]: Point};
 
 export type State = {
-  bezier: BezierPoints;
+  bezier: BezierPoints & {
+    t: number;
+  };
   draggingPoint: PointName | null;
 };
 
@@ -16,4 +18,7 @@ export type Action = {
   payload: Point,
 } | {
   type: 'DRAG_END';
-};
+} | {
+  type: 'SET_T';
+  payload: number;
+}

@@ -2,6 +2,7 @@ import React, {useContext, useCallback} from 'react';
 
 import {Store, Provider} from './store';
 import Bezier from './Bezier';
+import TSlider from './TSlider';
 import styles from './App.module.scss';
 
 const App: React.FC = () => {
@@ -17,9 +18,9 @@ const App: React.FC = () => {
     () => dispatch({type: 'DRAG_END'}),
     [dispatch],
   );
-  
+
   return (
-    <div 
+    <div
       className={styles.App}
       onMouseMove={state.draggingPoint ? dispatchDrag : undefined}
       onMouseUp={state.draggingPoint ? dispatchDragEnd : undefined}
@@ -30,6 +31,7 @@ const App: React.FC = () => {
       >
         <Bezier {...state.bezier} />
       </svg>
+      <TSlider />
     </div>
   );
 }
