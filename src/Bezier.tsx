@@ -1,8 +1,8 @@
 import {makeStyles} from '@material-ui/styles';
-import React, {useContext, useCallback} from 'react';
+import React, {useCallback} from 'react';
 
 import Handle from './Handle';
-import {Store} from './store';
+import {useStore} from './store';
 import {
   calcTPoint,
   calcUnitTangentVector,
@@ -35,7 +35,7 @@ type Props = BezierPoints & {t: number};
 // 始点 p0, 制御点 c0, c1, 終点 p1 によって定義される 3 次ベジエ曲線
 const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
   const classes = useStyles();
-  const {state, dispatch} = useContext(Store);
+  const {state, dispatch} = useStore();
   const dispatchDragStart = useCallback(
     (name: PointName) => () => dispatch({type: 'DRAG_START', payload: name}),
     [dispatch],

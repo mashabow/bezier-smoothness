@@ -2,16 +2,16 @@ import {makeStyles} from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
-import React, {useContext, useCallback} from 'react';
+import React, {useCallback} from 'react';
 
-import {Store} from './store';
+import {useStore} from './store';
 import {VisibilitiesKey} from './type';
 
 const VisibilityCheckbox: React.FC<{
   vKey: VisibilitiesKey,
   label: string,
 }> = ({vKey, label}) => {
-  const {state, dispatch} = useContext(Store);
+  const {state, dispatch} = useStore();
   const dispatchSetVisibility = useCallback(
     (_, value: boolean) => dispatch({
       type: 'SET_VISIBILITY',

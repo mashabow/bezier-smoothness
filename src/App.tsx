@@ -1,9 +1,9 @@
 import {makeStyles} from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import classnames from 'classnames';
-import React, {useContext, useCallback, useRef} from 'react';
+import React, {useCallback, useRef} from 'react';
 
-import {Store, Provider} from './store';
+import {useStore, Provider} from './store';
 import Bezier from './Bezier';
 import Controls from './Controls';
 
@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 const App: React.FC = () => {
   const classes = useStyles();
   const svgRef = useRef<SVGSVGElement>(null);
-  const {state, dispatch} = useContext(Store);
+  const {state, dispatch} = useStore();
   const dispatchDrag = useCallback(
     (e: React.MouseEvent) => {
       // オフセット分を差し引いて SVG 座標系に変換する
@@ -77,7 +77,7 @@ const App: React.FC = () => {
   );
 }
 
-// Provider は、useContext を使う FC より外側にある必要がある
+// Provider は、useStore を使う FC より外側にある必要がある
 export default () => (
   <Provider>
     <CssBaseline />
