@@ -24,9 +24,6 @@ const useStyles = makeStyles({
   osculatingCircle: {
     stroke: 'purple',
   },
-  curvatureRadius: {
-    stroke: 'purple',
-  },
   tPoint: {
     fill: 'black',
     stroke: 'none',
@@ -48,6 +45,10 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
   const tangent = calcUnitTangentVector({p0, c0, c1, p1}, t);
   const curvatureRadius = calcCurvatureRadius({p0, c0, c1, p1}, t);
   const normal = [-tangent[1], tangent[0]];
+  const osculatingCircleCenter = [
+    pt[0] + normal[0] * curvatureRadius,
+    pt[1] + normal[1] * curvatureRadius,
+  ];
   
   const frameLength = 75;  // 接線・法線を表示するときの長さ
   
@@ -87,21 +88,19 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
         />
       }
       {state.visibilities.osculatingCircle &&
-        <circle
-          className={classes.osculatingCircle}
-          cx={pt[0] + normal[0] * curvatureRadius}
-          cy={pt[1] + normal[1] * curvatureRadius}
-          r={Math.abs(curvatureRadius)}
-        />
-      }
-      {state.visibilities.curvatureRadius &&
-        <line
-          className={classes.curvatureRadius}
-          x1={pt[0]}
-          y1={pt[1]}
-          x2={pt[0] + normal[0] * curvatureRadius}
-          y2={pt[1] + normal[1] * curvatureRadius}
-        />
+        <g className={classes.osculatingCircle}>
+          <circle
+            cx={osculatingCircleCenter[0]}
+            cy={osculatingCircleCenter[1]}
+            r={Math.abs(curvatureRadius)}
+          />
+          <line
+            x1={pt[0]}
+            y1={pt[1]}
+            x2={osculatingCircleCenter[0]}
+            y2={osculatingCircleCenter[1]}
+          />
+        </g>
       }
       <circle
         className={classes.tPoint}

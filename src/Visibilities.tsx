@@ -48,7 +48,6 @@ const Visibilities: React.FC = () => {
       <VisibilityCheckbox vKey="tangent" label="接線" />
       <VisibilityCheckbox vKey="normal" label="法線" />
       <VisibilityCheckbox vKey="osculatingCircle" label="接触円" />
-      <VisibilityCheckbox vKey="curvatureRadius" label="曲率半径" />
     </FormGroup>
   );
 };

@@ -13,7 +13,6 @@ export const initialState: State = {
     tangent: false,
     normal: false,
     osculatingCircle: false,
-    curvatureRadius: false,
   },
 };
 
