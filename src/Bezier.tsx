@@ -83,13 +83,15 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
           y2={pt[1] + normal[1] * frameLength}
         />
       }
-      <line
-        className={classes.curvatureRadius}
-        x1={pt[0]}
-        y1={pt[1]}
-        x2={pt[0] + normal[0] * curvatureRadius}
-        y2={pt[1] + normal[1] * curvatureRadius}
-      />
+      {state.visibilities.curvatureRadius &&
+        <line
+          className={classes.curvatureRadius}
+          x1={pt[0]}
+          y1={pt[1]}
+          x2={pt[0] + normal[0] * curvatureRadius}
+          y2={pt[1] + normal[1] * curvatureRadius}
+        />
+      }
       <circle
         className={classes.tPoint}
         cx={pt[0]}
