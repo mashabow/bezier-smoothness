@@ -5,7 +5,7 @@ import React, {useContext, useCallback, useRef} from 'react';
 
 import {Store, Provider} from './store';
 import Bezier from './Bezier';
-import TSlider from './TSlider';
+import Controls from './Controls';
 
 const svgSize = 500;
 
@@ -72,9 +72,7 @@ const App: React.FC = () => {
       >
         <Bezier {...state.bezier} />
       </svg>
-      <div className={classes.controls}>
-        <TSlider />
-      </div>
+      <Controls className={classes.controls} />
     </div>
   );
 }

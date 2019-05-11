@@ -9,6 +9,10 @@ export const initialState: State = {
     t: 0.5,
   },
   draggingPoint: null,
+  visibilities: {
+    tangent: false,
+    normal: false,
+  },
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -39,6 +43,14 @@ const reducer = (state: State, action: Action): State => {
           ...state.bezier,
           t: action.payload,
         },
+      };
+    case 'SET_VISIBILITY':
+      return {
+        ...state,
+        visibilities: {
+          ...state.visibilities,
+          [action.payload.key]: action.payload.value,
+        }
       };
     default: break;
   }
