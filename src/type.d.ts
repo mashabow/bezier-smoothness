@@ -2,7 +2,8 @@ export type Point = [number, number];
 type PointName = 'p0' | 'c0' | 'c1' | 'p1';
 type BezierPoints = {[name in PointName]: Point};
 
-export type VisibilitiesKey = 'tangent' | 'normal' | 'curvatureRadius';
+export type VisibilitiesKey =
+  'tangent' | 'normal' | 'osculatingCircle' | 'curvatureRadius';
 
 export type State = {
   bezier: BezierPoints & {

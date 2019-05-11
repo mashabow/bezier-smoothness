@@ -21,6 +21,9 @@ const useStyles = makeStyles({
   normal: {
     stroke: 'red',
   },
+  osculatingCircle: {
+    stroke: 'purple',
+  },
   curvatureRadius: {
     stroke: 'purple',
   },
@@ -81,6 +84,14 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
           y1={pt[1]}
           x2={pt[0] + normal[0] * frameLength}
           y2={pt[1] + normal[1] * frameLength}
+        />
+      }
+      {state.visibilities.osculatingCircle &&
+        <circle
+          className={classes.osculatingCircle}
+          cx={pt[0] + normal[0] * curvatureRadius}
+          cy={pt[1] + normal[1] * curvatureRadius}
+          r={Math.abs(curvatureRadius)}
         />
       }
       {state.visibilities.curvatureRadius &&
