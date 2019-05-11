@@ -14,6 +14,9 @@ const useStyles = makeStyles({
   tangent: {
     stroke: 'blue',
   },
+  normal: {
+    stroke: 'red',
+  },
   tPoint: {
     fill: 'black',
     stroke: 'none',
@@ -32,8 +35,8 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
   );
   
   const pt = calcTPoint({p0, c0, c1, p1}, t);
-  const tangent = calcUnitTangentVector({p0, c0, c1, p1}, t);
-  const tangentLength = 100;
+  const tangent = calcUnitTangentVector({p0, c0, c1, p1}, t, 75);
+  const normal = [-tangent[1], tangent[0]];
   
   return (
     <g className={classes.root}>
@@ -54,10 +57,17 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
       />
       <line
         className={classes.tangent}
-        x1={pt[0] - tangent[0] * tangentLength / 2}
-        y1={pt[1] - tangent[1] * tangentLength / 2}
-        x2={pt[0] + tangent[0] * tangentLength / 2}
-        y2={pt[1] + tangent[1] * tangentLength / 2}
+        x1={pt[0] - tangent[0]}
+        y1={pt[1] - tangent[1]}
+        x2={pt[0] + tangent[0]}
+        y2={pt[1] + tangent[1]}
+      />
+      <line
+        className={classes.normal}
+        x1={pt[0]}
+        y1={pt[1]}
+        x2={pt[0] + normal[0]}
+        y2={pt[1] + normal[1]}
       />
       <circle
         className={classes.tPoint}
