@@ -3,13 +3,16 @@ import React, {useContext, useCallback} from 'react';
 
 import Handle from './Handle';
 import {Store} from './store';
-import {calcTPoint} from './calc';
+import {calcTPoint, calcUnitTangentVector} from './calc';
 import {BezierPoints, PointName} from './type';
 
 const useStyles = makeStyles({
   root: {
     fill: 'none',
     stroke: 'black',
+  },
+  tangent: {
+    stroke: 'blue',
   },
   tPoint: {
     fill: 'black',
@@ -27,7 +30,10 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
     (name: PointName) => () => dispatch({type: 'DRAG_START', payload: name}),
     [dispatch],
   );
-  const [tx, ty] = calcTPoint({p0, c0, c1, p1, t});
+  
+  const pt = calcTPoint({p0, c0, c1, p1}, t);
+  const tangent = calcUnitTangentVector({p0, c0, c1, p1}, t);
+  const tangentLength = 100;
   
   return (
     <g className={classes.root}>
@@ -46,10 +52,17 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
         dispatchDragStartP={dispatchDragStart('p1')}
         dispatchDragStartC={dispatchDragStart('c1')}
       />
+      <line
+        className={classes.tangent}
+        x1={pt[0] - tangent[0] * tangentLength / 2}
+        y1={pt[1] - tangent[1] * tangentLength / 2}
+        x2={pt[0] + tangent[0] * tangentLength / 2}
+        y2={pt[1] + tangent[1] * tangentLength / 2}
+      />
       <circle
         className={classes.tPoint}
-        cx={tx}
-        cy={ty}
+        cx={pt[0]}
+        cy={pt[1]}
         r={3}
       />
     </g>
