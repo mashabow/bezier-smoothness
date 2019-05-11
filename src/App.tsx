@@ -1,5 +1,6 @@
 import {makeStyles} from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import classnames from 'classnames';
 import React, {useContext, useCallback, useRef} from 'react';
 
 import {Store, Provider} from './store';
@@ -20,6 +21,11 @@ const useStyles = makeStyles({
   svg: {
     flex: 'none',
     backgroundColor: 'white',
+  },
+  svgDragging: {
+    // ドラッグしている点がカーソルに追いつかないこともあるので、
+    // ドラッグ中は SVG 全体にも cursor: 'pointer' を指定して、ちらつきを防ぐ
+    cursor: 'pointer',
   },
   controls: {
     width: 300,
@@ -50,16 +56,17 @@ const App: React.FC = () => {
     () => dispatch({type: 'DRAG_END'}),
     [dispatch],
   );
+  const dragging = Boolean(state.draggingPoint);
 
   return (
     <div
       className={classes.root}
-      onMouseMove={state.draggingPoint ? dispatchDrag : undefined}
-      onMouseUp={state.draggingPoint ? dispatchDragEnd : undefined}
+      onMouseMove={dragging ? dispatchDrag : undefined}
+      onMouseUp={dragging ? dispatchDragEnd : undefined}
     >
       <svg
         ref={svgRef}
-        className={classes.svg}
+        className={classnames(classes.svg, dragging && classes.svgDragging)}
         width={svgSize}
         height={svgSize}
       >
