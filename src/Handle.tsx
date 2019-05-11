@@ -11,10 +11,12 @@ const useStyles = makeStyles({
   anchorPoint: {
     fill: 'white',
     stroke: 'black',
+    cursor: 'pointer',
   },
   controlPoint: {
     fill: 'white',
     stroke: '#999',
+    cursor: 'pointer',
   },
 });
 
