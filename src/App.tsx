@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import React, {useContext, useCallback} from 'react';
+import React, {useContext, useCallback, useRef} from 'react';
 
 import {Store, Provider} from './store';
 import Bezier from './Bezier';
@@ -32,12 +32,18 @@ const useStyles = makeStyles({
 
 const App: React.FC = () => {
   const classes = useStyles();
+  const svgRef = useRef<SVGSVGElement>(null);
   const {state, dispatch} = useContext(Store);
   const dispatchDrag = useCallback(
-    (e: React.MouseEvent) => dispatch({
-      type: 'DRAG',
-      payload: [e.clientX, e.clientY],
-    }),
+    (e: React.MouseEvent) => {
+      // オフセット分を差し引いて SVG 座標系に変換する
+      // getScreenCTM() を使って座標変換した方が汎用的だが、手を抜いている
+      const rect = svgRef.current!.getBoundingClientRect();
+      dispatch({
+        type: 'DRAG',
+        payload: [e.clientX - rect.left, e.clientY - rect.top],
+      });
+    },
     [dispatch],
   );
   const dispatchDragEnd = useCallback(
@@ -52,6 +58,7 @@ const App: React.FC = () => {
       onMouseUp={state.draggingPoint ? dispatchDragEnd : undefined}
     >
       <svg
+        ref={svgRef}
         className={classes.svg}
         width={svgSize}
         height={svgSize}
