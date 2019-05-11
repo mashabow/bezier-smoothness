@@ -12,6 +12,7 @@ export const initialState: State = {
   visibilities: {
     tangent: false,
     normal: false,
+    osculatingCircle: false,
   },
 };
 

@@ -3,7 +3,11 @@ import React, {useContext, useCallback} from 'react';
 
 import Handle from './Handle';
 import {Store} from './store';
-import {calcTPoint, calcUnitTangentVector} from './calc';
+import {
+  calcTPoint,
+  calcUnitTangentVector,
+  calcCurvatureRadius,
+} from './calc';
 import {BezierPoints, PointName} from './type';
 
 const useStyles = makeStyles({
@@ -16,6 +20,9 @@ const useStyles = makeStyles({
   },
   normal: {
     stroke: 'red',
+  },
+  osculatingCircle: {
+    stroke: 'teal',
   },
   tPoint: {
     fill: 'black',
@@ -35,8 +42,15 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
   );
   
   const pt = calcTPoint({p0, c0, c1, p1}, t);
-  const tangent = calcUnitTangentVector({p0, c0, c1, p1}, t, 75);
+  const tangent = calcUnitTangentVector({p0, c0, c1, p1}, t);
+  const curvatureRadius = calcCurvatureRadius({p0, c0, c1, p1}, t);
   const normal = [-tangent[1], tangent[0]];
+  const osculatingCircleCenter = [
+    pt[0] + normal[0] * curvatureRadius,
+    pt[1] + normal[1] * curvatureRadius,
+  ];
+  
+  const frameLength = 75;  // 接線・法線を表示するときの長さ
   
   return (
     <g className={classes.root}>
@@ -58,10 +72,10 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
       {state.visibilities.tangent &&
         <line
           className={classes.tangent}
-          x1={pt[0] - tangent[0]}
-          y1={pt[1] - tangent[1]}
-          x2={pt[0] + tangent[0]}
-          y2={pt[1] + tangent[1]}
+          x1={pt[0] - tangent[0] * frameLength}
+          y1={pt[1] - tangent[1] * frameLength}
+          x2={pt[0] + tangent[0] * frameLength}
+          y2={pt[1] + tangent[1] * frameLength}
         />
       }
       {state.visibilities.normal &&
@@ -69,9 +83,24 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
           className={classes.normal}
           x1={pt[0]}
           y1={pt[1]}
-          x2={pt[0] + normal[0]}
-          y2={pt[1] + normal[1]}
+          x2={pt[0] + normal[0] * frameLength}
+          y2={pt[1] + normal[1] * frameLength}
         />
+      }
+      {state.visibilities.osculatingCircle &&
+        <g className={classes.osculatingCircle}>
+          <circle
+            cx={osculatingCircleCenter[0]}
+            cy={osculatingCircleCenter[1]}
+            r={Math.abs(curvatureRadius)}
+          />
+          <line
+            x1={pt[0]}
+            y1={pt[1]}
+            x2={osculatingCircleCenter[0]}
+            y2={osculatingCircleCenter[1]}
+          />
+        </g>
       }
       <circle
         className={classes.tPoint}
