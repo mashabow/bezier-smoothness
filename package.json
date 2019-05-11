@@ -3,15 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/lab": "^3.0.0-alpha.30",
+    "@material-ui/styles": "^3.0.0-alpha.10",
     "@types/jest": "24.0.12",
     "@types/node": "12.0.0",
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
-    "node-sass": "^4.12.0",
+    "@types/victor": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0",
-    "typescript": "3.4.5"
+    "typescript": "3.4.5",
+    "victor": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

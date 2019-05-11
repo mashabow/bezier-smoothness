@@ -6,6 +6,7 @@ export const initialState: State = {
     c0: [200, 200],
     c1: [300, 200],
     p1: [400, 100],
+    t: 0.5,
   },
   draggingPoint: null,
 };
@@ -30,6 +31,14 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         draggingPoint: null,
+      };
+    case 'SET_T':
+      return {
+        ...state,
+        bezier: {
+          ...state.bezier,
+          t: action.payload,
+        },
       };
     default: break;
   }
