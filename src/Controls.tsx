@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import React from 'react';
 
 import TSlider from './TSlider';
+import Visibilities from './Visibilities';
 
 const useStyles = makeStyles({
   root: {
@@ -17,6 +18,7 @@ const Controls: React.FC<{className: string}> = ({className}) => {
   return (
     <div className={classnames(className, classes.root)}>
       <TSlider />
+      <Visibilities />
     </div>
   );
 };
