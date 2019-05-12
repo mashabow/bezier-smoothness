@@ -60,3 +60,22 @@ export const calcCurvatureRadius = (
   const denominator = d1.cross(d2);
   return numerator / denominator;
 };
+
+// reference と target が G0 連続になるように、target を移動した場合の BezierPoints を求める
+export const satisfyG0 = (
+  reference: BezierPoints,
+  target: BezierPoints,
+): BezierPoints => {
+  const p0 = v(target.p0);
+  const c0 = v(target.c0);
+  const c1 = v(target.c1);
+  const p1 = v(target.p1);
+
+  const offset = p0.clone().subtract(v(reference.p1));
+  return {
+    p0: p0.subtract(offset).toArray() as Point,
+    c0: c0.subtract(offset).toArray() as Point,
+    c1: c1.subtract(offset).toArray() as Point,
+    p1: p1.subtract(offset).toArray() as Point,
+  };
+};

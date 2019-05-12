@@ -1,5 +1,6 @@
 import { Reducer } from 'use-immer';
 
+import { satisfyG0 } from './calc';
 import { Action, State } from './type';
 
 export const initialState: State = {
@@ -49,6 +50,18 @@ const reducer: Reducer<State, Action> = (draft, action) => {
       return;
     case 'SET_VISIBILITY':
       draft.visibilities[action.payload.key] = action.payload.value;
+      return;
+    case 'MAKE_G0':
+      draft.beziers[1].points = satisfyG0(
+        draft.beziers[0].points,
+        draft.beziers[1].points,
+      );
+      return;
+    case 'MAKE_G1':
+      // TODO
+      return;
+    case 'MAKE_G2':
+      // TODO
       return;
     default:
       return;
