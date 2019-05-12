@@ -1,3 +1,5 @@
+import { Reducer } from 'use-immer';
+
 import { Action, State } from './type';
 
 export const initialState: State = {
@@ -16,46 +18,27 @@ export const initialState: State = {
   },
 };
 
-const reducer = (state: State, action: Action): State => {
+const reducer: Reducer<State, Action> = (draft, action) => {
   switch (action.type) {
     case 'DRAG_START':
-      return {
-        ...state,
-        draggingPoint: action.payload,
-      };
+      draft.draggingPoint = action.payload;
+      return;
     case 'DRAG':
-      if (!state.draggingPoint) break;
-      return {
-        ...state,
-        bezier: {
-          ...state.bezier,
-          [state.draggingPoint]: action.payload,
-        },
-      };
+      if (!draft.draggingPoint) return;
+      draft.bezier[draft.draggingPoint] = action.payload;
+      return;
     case 'DRAG_END':
-      return {
-        ...state,
-        draggingPoint: null,
-      };
+      draft.draggingPoint = null;
+      return;
     case 'SET_T':
-      return {
-        ...state,
-        bezier: {
-          ...state.bezier,
-          t: action.payload,
-        },
-      };
+      draft.bezier.t = action.payload;
+      return;
     case 'SET_VISIBILITY':
-      return {
-        ...state,
-        visibilities: {
-          ...state.visibilities,
-          [action.payload.key]: action.payload.value,
-        }
-      };
-    default: break;
+      draft.visibilities[action.payload.key] = action.payload.value;
+      return;
+    default:
+      return;
   }
-  return state;
-}
+};
 
 export default reducer;
