@@ -10,6 +10,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 15,
   },
   label: {
     flex: 'none',
@@ -43,7 +44,7 @@ const TSlider: React.FC<{index: 0 | 1}> = ({index}) => {
         variant="body1"
         className={classes.label}
       >
-        t = {t.toFixed(2)}
+        {'AB'[index]}: <i>t</i> = {t.toFixed(2)}
       </Typography>
     </div>
   );
