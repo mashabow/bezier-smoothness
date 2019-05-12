@@ -1,4 +1,5 @@
-import React, {useContext, useReducer} from 'react';
+import React, {useContext} from 'react';
+import {useImmerReducer} from 'use-immer';
 
 import reducer, {initialState} from './reducer';
 import {Action} from './type';
@@ -9,7 +10,7 @@ const Store = React.createContext({
 });
 
 export const Provider: React.FC = ({children}) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useImmerReducer(reducer, initialState);
   return (
     <Store.Provider value={{state, dispatch}}>
       {children}
