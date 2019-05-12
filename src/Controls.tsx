@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 import classnames from 'classnames';
 import React from 'react';
 
@@ -12,13 +12,13 @@ const useStyles = makeStyles({
   },
 });
 
-const Controls: React.FC<{className: string}> = ({className}) => {
+const Controls: React.FC<{ className: string }> = ({ className }) => {
   const classes = useStyles();
-  
+
   return (
     <div className={classnames(className, classes.root)}>
-      <TSlider index={0}/>
-      <TSlider index={1}/>
+      <TSlider index={0} />
+      <TSlider index={1} />
       <Visibilities />
     </div>
   );
