@@ -17,6 +17,8 @@ export type State = {
   visibilities: Record<VisibilitiesKey, boolean>;
 };
 
+export type EditButtonType = 'MAKE_G0' | 'MAKE_G1' | 'MAKE_G2';
+
 export type Action =
   | {
       type: 'DRAG_START';
@@ -36,4 +38,7 @@ export type Action =
   | {
       type: 'SET_VISIBILITY';
       payload: { key: VisibilitiesKey; value: boolean };
+    }
+  | {
+      type: EditButtonType;
     };
