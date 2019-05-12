@@ -8,7 +8,7 @@ import {
   calcUnitTangentVector,
   calcCurvatureRadius,
 } from './calc';
-import {Bezier as BezierProps, PointName} from './type';
+import {PointName} from './type';
 
 const useStyles = makeStyles({
   root: {
@@ -31,14 +31,18 @@ const useStyles = makeStyles({
 });
 
 // 始点 p0, 制御点 c0, c1, 終点 p1 によって定義される 3 次ベジエ曲線
-const Bezier: React.FC<BezierProps> = ({points, t}) => {
+const Bezier: React.FC<{index: 0 | 1}> = ({index}) => {
   const classes = useStyles();
   const {state, dispatch} = useStore();
   const dispatchDragStart = useCallback(
-    (name: PointName) => () => dispatch({type: 'DRAG_START', payload: name}),
-    [dispatch],
+    (name: PointName) => () => dispatch({
+      type: 'DRAG_START',
+      payload: {index, name},
+    }),
+    [dispatch, index],
   );
   
+  const {points, t} = state.beziers[index];
   const pt = calcTPoint(points, t);
   const tangent = calcUnitTangentVector(points, t);
   const curvatureRadius = calcCurvatureRadius(points, t);

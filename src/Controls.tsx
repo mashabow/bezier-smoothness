@@ -17,7 +17,8 @@ const Controls: React.FC<{className: string}> = ({className}) => {
   
   return (
     <div className={classnames(className, classes.root)}>
-      <TSlider />
+      <TSlider index={0}/>
+      <TSlider index={1}/>
       <Visibilities />
     </div>
   );

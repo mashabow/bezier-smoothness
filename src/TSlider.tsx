@@ -17,18 +17,23 @@ const useStyles = makeStyles({
   },
 });
 
-const TSlider: React.FC = () => {
+const TSlider: React.FC<{index: 0 | 1}> = ({index}) => {
   const classes = useStyles();
   const {state, dispatch} = useStore();
   const dispatchSetT = useCallback(
-    (_, value: number) => dispatch({type: 'SET_T', payload: value}),
-    [dispatch],
+    (_, value: number) => dispatch({
+      type: 'SET_T',
+      payload: {index, value},
+    }),
+    [dispatch, index],
   );
+  
+  const t = state.beziers[index].t;
 
   return (
     <div className={classes.root}>
       <Slider
-        value={state.bezier.t}
+        value={t}
         min={0}
         max={1}
         step={0.01}
@@ -38,7 +43,7 @@ const TSlider: React.FC = () => {
         variant="body1"
         className={classes.label}
       >
-        t = {state.bezier.t.toFixed(2)}
+        t = {t.toFixed(2)}
       </Typography>
     </div>
   );

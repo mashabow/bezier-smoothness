@@ -70,7 +70,8 @@ const App: React.FC = () => {
         width={svgSize}
         height={svgSize}
       >
-        <Bezier {...state.bezier} />
+        <Bezier index={0} />
+        <Bezier index={1} />
       </svg>
       <Controls className={classes.controls} />
     </div>
