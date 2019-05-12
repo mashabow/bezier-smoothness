@@ -1,21 +1,26 @@
 export type Point = [number, number];
-type PointName = 'p0' | 'c0' | 'c1' | 'p1';
-type BezierPoints = {[name in PointName]: Point};
+export type PointName = 'p0' | 'c0' | 'c1' | 'p1';
+export type BezierPoints = Record<PointName, Point>;
+export type Bezier = {
+  points: BezierPoints;
+  t: number;
+};
 
 export type VisibilitiesKey =
   'tangent' | 'normal' | 'osculatingCircle';
 
 export type State = {
-  bezier: BezierPoints & {
-    t: number;
-  };
-  draggingPoint: PointName | null;
+  beziers: [Bezier, Bezier];
+  draggingPoint: {
+    index: 0 | 1,
+    name: PointName,
+  } | null;
   visibilities: Record<VisibilitiesKey, boolean>;
 };
 
 export type Action = {
   type: 'DRAG_START';
-  payload: PointName;
+  payload: {index: 0 | 1, name: PointName};
 } | {
   type: 'DRAG',
   payload: Point,
@@ -23,7 +28,7 @@ export type Action = {
   type: 'DRAG_END';
 } | {
   type: 'SET_T';
-  payload: number;
+  payload: {index: 0 | 1, value: number};
 } | {
   type: 'SET_VISIBILITY';
   payload: {key: VisibilitiesKey, value: boolean};

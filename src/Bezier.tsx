@@ -8,7 +8,7 @@ import {
   calcUnitTangentVector,
   calcCurvatureRadius,
 } from './calc';
-import {BezierPoints, PointName} from './type';
+import {PointName} from './type';
 
 const useStyles = makeStyles({
   root: {
@@ -27,23 +27,26 @@ const useStyles = makeStyles({
   tPoint: {
     fill: 'black',
     stroke: 'none',
+    pointerEvents: 'none',
   },
 });
 
-type Props = BezierPoints & {t: number};
-
 // 始点 p0, 制御点 c0, c1, 終点 p1 によって定義される 3 次ベジエ曲線
-const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
+const Bezier: React.FC<{index: 0 | 1}> = ({index}) => {
   const classes = useStyles();
   const {state, dispatch} = useStore();
   const dispatchDragStart = useCallback(
-    (name: PointName) => () => dispatch({type: 'DRAG_START', payload: name}),
-    [dispatch],
+    (name: PointName) => () => dispatch({
+      type: 'DRAG_START',
+      payload: {index, name},
+    }),
+    [dispatch, index],
   );
   
-  const pt = calcTPoint({p0, c0, c1, p1}, t);
-  const tangent = calcUnitTangentVector({p0, c0, c1, p1}, t);
-  const curvatureRadius = calcCurvatureRadius({p0, c0, c1, p1}, t);
+  const {points, t} = state.beziers[index];
+  const pt = calcTPoint(points, t);
+  const tangent = calcUnitTangentVector(points, t);
+  const curvatureRadius = calcCurvatureRadius(points, t);
   const normal = [-tangent[1], tangent[0]];
   const osculatingCircleCenter = [
     pt[0] + normal[0] * curvatureRadius,
@@ -51,6 +54,7 @@ const Bezier: React.FC<Props> = ({p0, c0, c1, p1, t}) => {
   ];
   
   const frameLength = 75;  // 接線・法線を表示するときの長さ
+  const { p0, c0, c1, p1 } = points;
   
   return (
     <g className={classes.root}>
