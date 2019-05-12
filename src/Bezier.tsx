@@ -27,6 +27,7 @@ const useStyles = makeStyles({
   tPoint: {
     fill: 'black',
     stroke: 'none',
+    pointerEvents: 'none',
   },
 });
 
