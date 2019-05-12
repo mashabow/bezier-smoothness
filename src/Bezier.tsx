@@ -1,14 +1,10 @@
-import {makeStyles} from '@material-ui/styles';
-import React, {useCallback} from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React, { useCallback } from 'react';
 
 import Handle from './Handle';
-import {useStore} from './store';
-import {
-  calcTPoint,
-  calcUnitTangentVector,
-  calcCurvatureRadius,
-} from './calc';
-import {PointName} from './type';
+import { useStore } from './store';
+import { calcTPoint, calcUnitTangentVector, calcCurvatureRadius } from './calc';
+import { PointName } from './type';
 
 const useStyles = makeStyles({
   root: {
@@ -32,18 +28,19 @@ const useStyles = makeStyles({
 });
 
 // 始点 p0, 制御点 c0, c1, 終点 p1 によって定義される 3 次ベジエ曲線
-const Bezier: React.FC<{index: 0 | 1}> = ({index}) => {
+const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
   const classes = useStyles();
-  const {state, dispatch} = useStore();
+  const { state, dispatch } = useStore();
   const dispatchDragStart = useCallback(
-    (name: PointName) => () => dispatch({
-      type: 'DRAG_START',
-      payload: {index, name},
-    }),
+    (name: PointName) => () =>
+      dispatch({
+        type: 'DRAG_START',
+        payload: { index, name },
+      }),
     [dispatch, index],
   );
-  
-  const {points, t} = state.beziers[index];
+
+  const { points, t } = state.beziers[index];
   const pt = calcTPoint(points, t);
   const tangent = calcUnitTangentVector(points, t);
   const curvatureRadius = calcCurvatureRadius(points, t);
@@ -52,15 +49,13 @@ const Bezier: React.FC<{index: 0 | 1}> = ({index}) => {
     pt[0] + normal[0] * curvatureRadius,
     pt[1] + normal[1] * curvatureRadius,
   ];
-  
-  const frameLength = 75;  // 接線・法線を表示するときの長さ
+
+  const frameLength = 75; // 接線・法線を表示するときの長さ
   const { p0, c0, c1, p1 } = points;
-  
+
   return (
     <g className={classes.root}>
-      <path
-        d={`M ${p0} C ${c0} ${c1} ${p1}`}
-      />
+      <path d={`M ${p0} C ${c0} ${c1} ${p1}`} />
       <Handle
         p={p0}
         c={c0}
@@ -73,7 +68,7 @@ const Bezier: React.FC<{index: 0 | 1}> = ({index}) => {
         dispatchDragStartP={dispatchDragStart('p1')}
         dispatchDragStartC={dispatchDragStart('c1')}
       />
-      {state.visibilities.tangent &&
+      {state.visibilities.tangent && (
         <line
           className={classes.tangent}
           x1={pt[0] - tangent[0] * frameLength}
@@ -81,8 +76,8 @@ const Bezier: React.FC<{index: 0 | 1}> = ({index}) => {
           x2={pt[0] + tangent[0] * frameLength}
           y2={pt[1] + tangent[1] * frameLength}
         />
-      }
-      {state.visibilities.normal &&
+      )}
+      {state.visibilities.normal && (
         <line
           className={classes.normal}
           x1={pt[0]}
@@ -90,8 +85,8 @@ const Bezier: React.FC<{index: 0 | 1}> = ({index}) => {
           x2={pt[0] + normal[0] * frameLength}
           y2={pt[1] + normal[1] * frameLength}
         />
-      }
-      {state.visibilities.osculatingCircle &&
+      )}
+      {state.visibilities.osculatingCircle && (
         <g className={classes.osculatingCircle}>
           <circle
             cx={osculatingCircleCenter[0]}
@@ -105,15 +100,10 @@ const Bezier: React.FC<{index: 0 | 1}> = ({index}) => {
             y2={osculatingCircleCenter[1]}
           />
         </g>
-      }
-      <circle
-        className={classes.tPoint}
-        cx={pt[0]}
-        cy={pt[1]}
-        r={3}
-      />
+      )}
+      <circle className={classes.tPoint} cx={pt[0]} cy={pt[1]} r={3} />
     </g>
   );
-}
+};
 
 export default Bezier;
