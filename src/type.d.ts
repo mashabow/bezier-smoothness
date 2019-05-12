@@ -1,14 +1,16 @@
 export type Point = [number, number];
-type PointName = 'p0' | 'c0' | 'c1' | 'p1';
-type BezierPoints = {[name in PointName]: Point};
+export type PointName = 'p0' | 'c0' | 'c1' | 'p1';
+export type BezierPoints = Record<PointName, Point>;
+export type Bezier = {
+  points: BezierPoints;
+  t: number;
+};
 
 export type VisibilitiesKey =
   'tangent' | 'normal' | 'osculatingCircle';
 
 export type State = {
-  bezier: BezierPoints & {
-    t: number;
-  };
+  bezier: Bezier;
   draggingPoint: PointName | null;
   visibilities: Record<VisibilitiesKey, boolean>;
 };
