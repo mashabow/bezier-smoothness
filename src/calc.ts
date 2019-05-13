@@ -61,7 +61,8 @@ export const calcCurvatureRadius = (
   return numerator / denominator;
 };
 
-// reference と target が G0 連続になるように、target を移動した場合の BezierPoints を求める
+// reference と target が G0 連続になるように target を調整した場合の BezierPoints を求める
+// reference.p1 と target.p0 が重なるように平行移動すればよい
 export const satisfyG0 = (
   reference: BezierPoints,
   target: BezierPoints,
@@ -77,5 +78,26 @@ export const satisfyG0 = (
     c0: c0.subtract(offset).toArray() as Point,
     c1: c1.subtract(offset).toArray() as Point,
     p1: p1.subtract(offset).toArray() as Point,
+  };
+};
+
+// reference と target が G1 連続になるように target を調整した場合の BezierPoints を求める
+// G0 連続にした上で、reference.c1, reference.p1 = target.p0, target.c0 の 3 点が
+// 同一直線上に乗るように、target.c0 を移動すればよい
+export const satisfyG1 = (
+  reference: BezierPoints,
+  target: BezierPoints,
+): BezierPoints => {
+  target = satisfyG0(reference, target);
+
+  const referenceV = v(reference.p1).subtract(v(reference.c1));
+  const targetV = v(target.c0).subtract(v(target.p0));
+  // p0 を中心にして c0 を回転させる（ハンドルの長さを保つ）ことにする
+  const newTargetV = targetV.rotate(referenceV.angle() - targetV.angle());
+  const newC0 = newTargetV.add(v(target.p0));
+
+  return {
+    ...target,
+    c0: newC0.toArray() as Point,
   };
 };
