@@ -1,6 +1,6 @@
 import { Reducer } from 'use-immer';
 
-import { satisfyG0, satisfyG1 } from './calc';
+import { satisfyG0, satisfyG1, satisfyG2 } from './calc';
 import { Action, State } from './type';
 
 export const initialState: State = {
@@ -64,7 +64,10 @@ const reducer: Reducer<State, Action> = (draft, action) => {
       );
       return;
     case 'MAKE_G2':
-      // TODO
+      draft.beziers[1].points = satisfyG2(
+        draft.beziers[0].points,
+        draft.beziers[1].points,
+      );
       return;
     default:
       return;

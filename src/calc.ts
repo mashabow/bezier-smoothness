@@ -101,3 +101,31 @@ export const satisfyG1 = (
     c0: newC0.toArray() as Point,
   };
 };
+
+// reference と target が G2 連続になるように target を調整した場合の BezierPoints を求める
+// G1 連続にした上で、reference.p1, target.p0 それぞれにおける曲率が一致するように target.c0 を移動すればよい
+export const satisfyG2 = (
+  reference: BezierPoints,
+  target: BezierPoints,
+): BezierPoints => {
+  target = satisfyG1(reference, target);
+
+  const referenceR = calcCurvatureRadius(reference, 1);
+  const handle = v(target.c0).subtract(v(target.p0)); // ハンドル p0c0
+  // 計算を簡単にするため、target を回転・平行移動し、
+  // p0 が原点 (0, 0)、c0 が x 軸上 (l, 0) に来るようにしておく（ただし l >= 0 とする）。
+  // このとき、c1 の y 座標を cy とすると、p0 における曲率半径 R は R = (3 l^2) / (2 cy) となる
+  const cy = v(target.c1)
+    .subtract(v(target.p0))
+    .rotate(-handle.angle()).y;
+  const l = Math.sqrt((2 / 3) * cy * referenceR); // ハンドルの長さ
+  const newC0 = handle
+    .normalize()
+    .multiplyScalar(l)
+    .add(v(target.p0));
+
+  return {
+    ...target,
+    c0: newC0.toArray() as Point,
+  };
+};
