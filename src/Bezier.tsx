@@ -37,7 +37,7 @@ const useStyles = makeStyles({
 
 const curvatureToColor = (curvature: number): string => {
   // 黄→赤 となるように適当に決めた関数
-  const hue = Math.max(70 - Math.abs(curvature) * 2500, 0);
+  const hue = Math.max(65 - Math.abs(curvature) * 3000, -20);
   return `hsl(${hue}, 100%, 50%)`;
 };
 
@@ -71,7 +71,7 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
     <g className={classes.root}>
       {state.visibilities.curvatureComb && (
         <g className={classes.curvatureComb}>
-          {calcCurvatureComb(points, 50, 2000).map(
+          {calcCurvatureComb(points, 80, 2000).map(
             ({ start, end, curvature }, i) => (
               <line
                 key={i}
