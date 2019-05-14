@@ -69,6 +69,10 @@ const reducer: Reducer<State, Action> = (draft, action) => {
         draft.beziers[1].points,
       );
       return;
+    case 'RESET_POINTS':
+      draft.beziers[0].points = initialState.beziers[0].points;
+      draft.beziers[1].points = initialState.beziers[1].points;
+      return;
     default:
       return;
   }

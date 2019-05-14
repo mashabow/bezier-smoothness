@@ -17,7 +17,7 @@ export type State = {
   visibilities: Record<VisibilitiesKey, boolean>;
 };
 
-export type EditButtonType = 'MAKE_G0' | 'MAKE_G1' | 'MAKE_G2';
+export type EditButtonType = 'MAKE_G0' | 'MAKE_G1' | 'MAKE_G2' | 'RESET_POINTS';
 
 export type Action =
   | {
