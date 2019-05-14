@@ -63,25 +63,28 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
     pt[0] + normal[0] * curvatureRadius,
     pt[1] + normal[1] * curvatureRadius,
   ];
-  const curvatureComb = calcCurvatureComb(points, 50, 2000);
 
   const frameLength = 75; // 接線・法線を表示するときの長さ
   const { p0, c0, c1, p1 } = points;
 
   return (
     <g className={classes.root}>
-      <g className={classes.curvatureComb}>
-        {curvatureComb.map(({ start, end, curvature }, i) => (
-          <line
-            key={i}
-            x1={start[0]}
-            y1={start[1]}
-            x2={end[0]}
-            y2={end[1]}
-            stroke={curvatureToColor(curvature)}
-          />
-        ))}
-      </g>
+      {state.visibilities.curvatureComb && (
+        <g className={classes.curvatureComb}>
+          {calcCurvatureComb(points, 50, 2000).map(
+            ({ start, end, curvature }, i) => (
+              <line
+                key={i}
+                x1={start[0]}
+                y1={start[1]}
+                x2={end[0]}
+                y2={end[1]}
+                stroke={curvatureToColor(curvature)}
+              />
+            ),
+          )}
+        </g>
+      )}
       <path d={`M ${p0} C ${c0} ${c1} ${p1}`} />
       <Handle
         p={p0}

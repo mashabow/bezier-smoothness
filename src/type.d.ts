@@ -6,7 +6,11 @@ export type Bezier = {
   t: number;
 };
 
-export type VisibilitiesKey = 'tangent' | 'normal' | 'osculatingCircle';
+export type VisibilitiesKey =
+  | 'tangent'
+  | 'normal'
+  | 'osculatingCircle'
+  | 'curvatureComb';
 
 export type State = {
   beziers: [Bezier, Bezier];
