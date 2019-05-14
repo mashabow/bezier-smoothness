@@ -35,6 +35,12 @@ const useStyles = makeStyles({
   },
 });
 
+const curvatureToColor = (curvature: number): string => {
+  // 黄→赤 となるように適当に決めた関数
+  const hue = Math.max(70 - Math.abs(curvature) * 2500, 0);
+  return `hsl(${hue}, 100%, 50%)`;
+};
+
 // 始点 p0, 制御点 c0, c1, 終点 p1 によって定義される 3 次ベジエ曲線
 const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
   const classes = useStyles();
@@ -64,12 +70,19 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
 
   return (
     <g className={classes.root}>
-      <path d={`M ${p0} C ${c0} ${c1} ${p1}`} />
       <g className={classes.curvatureComb}>
-        {curvatureComb.map(({ start, end }, i) => (
-          <line key={i} x1={start[0]} y1={start[1]} x2={end[0]} y2={end[1]} />
+        {curvatureComb.map(({ start, end, curvature }, i) => (
+          <line
+            key={i}
+            x1={start[0]}
+            y1={start[1]}
+            x2={end[0]}
+            y2={end[1]}
+            stroke={curvatureToColor(curvature)}
+          />
         ))}
       </g>
+      <path d={`M ${p0} C ${c0} ${c1} ${p1}`} />
       <Handle
         p={p0}
         c={c0}
