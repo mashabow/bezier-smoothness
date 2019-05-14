@@ -60,3 +60,94 @@ export const calcCurvatureRadius = (
   const denominator = d1.cross(d2);
   return numerator / denominator;
 };
+
+// reference と target が G0 連続になるように target を調整した場合の BezierPoints を求める
+// reference.p1 と target.p0 が重なるように平行移動すればよい
+export const satisfyG0 = (
+  reference: BezierPoints,
+  target: BezierPoints,
+): BezierPoints => {
+  const p0 = v(target.p0);
+  const c0 = v(target.c0);
+  const c1 = v(target.c1);
+  const p1 = v(target.p1);
+
+  const offset = p0.clone().subtract(v(reference.p1));
+  return {
+    p0: p0.subtract(offset).toArray() as Point,
+    c0: c0.subtract(offset).toArray() as Point,
+    c1: c1.subtract(offset).toArray() as Point,
+    p1: p1.subtract(offset).toArray() as Point,
+  };
+};
+
+// reference と target が G1 連続になるように target を調整した場合の BezierPoints を求める
+// G0 連続にした上で、reference.c1, reference.p1 = target.p0, target.c0 の 3 点が
+// 同一直線上に乗るように、target.c0 を移動すればよい
+export const satisfyG1 = (
+  reference: BezierPoints,
+  target: BezierPoints,
+): BezierPoints => {
+  target = satisfyG0(reference, target);
+
+  const referenceV = v(reference.p1).subtract(v(reference.c1));
+  const targetV = v(target.c0).subtract(v(target.p0));
+  // p0 を中心にして c0 を回転させる（ハンドルの長さを保つ）ことにする
+  const newTargetV = targetV.rotate(referenceV.angle() - targetV.angle());
+  const newC0 = newTargetV.add(v(target.p0));
+
+  return {
+    ...target,
+    c0: newC0.toArray() as Point,
+  };
+};
+
+// reference と target が G2 連続になるように target を調整した場合の BezierPoints を求める
+// G1 連続にした上で、reference.p1, target.p0 それぞれにおける曲率が一致するように
+// target.c0 もしくは target.c1 を移動すればよい
+export const satisfyG2 = (
+  reference: BezierPoints,
+  target: BezierPoints,
+): BezierPoints => {
+  target = satisfyG1(reference, target);
+
+  const referenceR = calcCurvatureRadius(reference, 1);
+  const handle0 = v(target.c0).subtract(v(target.p0)); // p0 側のハンドル
+  // 計算を簡単にするため、target を回転・平行移動し、
+  // p0 が原点 (0, 0)、c0 が x 軸上 (l0, 0) に来るようにしておく（ただし l0 >= 0 とする）。
+  const rotatedC1 = v(target.c1)
+    .subtract(v(target.p0))
+    .rotate(-handle0.angle());
+  // このとき、c1 の y 座標を cy とすると、p0 における曲率半径 R との関係は R = (3 l0^2) / (2 cy) となる
+  const cy = rotatedC1.y;
+  if (cy * referenceR >= 0) {
+    // cy と R が同符号のとき、上述の関係式を満たす l0 を求めることができる
+    const newL0 = Math.sqrt((2 / 3) * cy * referenceR); // p0 側のハンドルの（調整後の）長さ
+    const newC0 = handle0
+      .normalize()
+      .multiplyScalar(newL0)
+      .add(v(target.p0));
+    return {
+      ...target,
+      c0: newC0.toArray() as Point,
+    };
+  } else {
+    // cy と R の符号が異なるとき、上述の関係式を満たす正の実数 l0 は存在しない
+    // そこで、p1 側のハンドルの長さを変えることによって、G2 連続となるように調整することを考える
+    const l0 = handle0.length();
+    const newCy = ((3 / 2) * l0 ** 2) / referenceR;
+    // c1 の y 座標 cy が newCy に一致するよう、c1 を動かせば（ハンドルを伸ばせば）よい
+    const rotatedP1 = v(target.p1)
+      .subtract(v(target.p0))
+      .rotate(-handle0.angle());
+    const ratio = (newCy - rotatedP1.y) / (cy - rotatedP1.y);
+    const newC1 = v(target.c1)
+      .subtract(v(target.p1))
+      .multiplyScalar(ratio)
+      .add(v(target.p1));
+    return {
+      ...target,
+      c1: newC1.toArray() as Point,
+    };
+  }
+};

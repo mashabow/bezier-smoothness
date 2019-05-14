@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/styles';
 import classnames from 'classnames';
 import React from 'react';
 
+import EditButtons from './EditButtons';
 import TSlider from './TSlider';
 import Visibilities from './Visibilities';
 
@@ -20,6 +21,7 @@ const Controls: React.FC<{ className: string }> = ({ className }) => {
       <TSlider index={0} />
       <TSlider index={1} />
       <Visibilities />
+      <EditButtons />
     </div>
   );
 };
