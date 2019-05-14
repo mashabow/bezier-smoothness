@@ -3,13 +3,21 @@ import React, { useCallback } from 'react';
 
 import Handle from './Handle';
 import { useStore } from './store';
-import { calcTPoint, calcUnitTangentVector, calcCurvatureRadius } from './calc';
+import {
+  calcTPoint,
+  calcUnitTangentVector,
+  calcCurvatureRadius,
+  calcCurvatureComb,
+} from './calc';
 import { PointName } from './type';
 
 const useStyles = makeStyles({
   root: {
     fill: 'none',
     stroke: 'black',
+  },
+  curvatureComb: {
+    pointerEvents: 'none',
   },
   tangent: {
     stroke: 'blue',
@@ -49,6 +57,7 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
     pt[0] + normal[0] * curvatureRadius,
     pt[1] + normal[1] * curvatureRadius,
   ];
+  const curvatureComb = calcCurvatureComb(points, 50, 2000);
 
   const frameLength = 75; // 接線・法線を表示するときの長さ
   const { p0, c0, c1, p1 } = points;
@@ -56,6 +65,11 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
   return (
     <g className={classes.root}>
       <path d={`M ${p0} C ${c0} ${c1} ${p1}`} />
+      <g className={classes.curvatureComb}>
+        {curvatureComb.map(({ start, end }, i) => (
+          <line key={i} x1={start[0]} y1={start[1]} x2={end[0]} y2={end[1]} />
+        ))}
+      </g>
       <Handle
         p={p0}
         c={c0}
