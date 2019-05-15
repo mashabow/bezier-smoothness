@@ -34,7 +34,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    marginTop: 20,
+    marginTop: 35,
     '@global': {
       sup: {
         // 読みにくいので微調整
@@ -45,7 +45,7 @@ const useStyles = makeStyles({
     },
   },
   button: {
-    marginBottom: 15,
+    marginBottom: 20,
   },
 });
 
