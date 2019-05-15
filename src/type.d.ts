@@ -7,6 +7,7 @@ export type Bezier = {
 };
 
 export type VisibilitiesKey =
+  | 'bezierOnly'
   | 'tangent'
   | 'normal'
   | 'osculatingCircle'

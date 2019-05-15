@@ -66,8 +66,11 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
 
   const frameLength = 75; // 接線・法線を表示するときの長さ
   const { p0, c0, c1, p1 } = points;
+  const bezierCurve = <path d={`M ${p0} C ${c0} ${c1} ${p1}`} />;
 
-  return (
+  return state.visibilities.bezierOnly ? (
+    <g className={classes.root}>{bezierCurve}</g>
+  ) : (
     <g className={classes.root}>
       {state.visibilities.curvatureComb && (
         <g className={classes.curvatureComb}>
@@ -85,7 +88,7 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
           )}
         </g>
       )}
-      <path d={`M ${p0} C ${c0} ${c1} ${p1}`} />
+      {bezierCurve}
       <Handle
         p={p0}
         c={c0}
