@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     stroke: 'blue',
   },
   osculatingCircle: {
-    stroke: 'teal',
+    stroke: '#0b8',
   },
   tPoint: {
     fill: 'black',
