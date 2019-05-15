@@ -26,8 +26,8 @@ export const initialState: State = {
   ],
   draggingPoint: null,
   visibilities: {
+    bezierOnly: false,
     tangent: false,
-    normal: false,
     osculatingCircle: false,
     curvatureComb: false,
   },
