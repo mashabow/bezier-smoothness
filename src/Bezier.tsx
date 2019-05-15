@@ -22,9 +22,6 @@ const useStyles = makeStyles({
   tangent: {
     stroke: 'blue',
   },
-  normal: {
-    stroke: 'red',
-  },
   osculatingCircle: {
     stroke: 'teal',
   },
@@ -58,15 +55,14 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
   const pt = calcTPoint(points, t);
   const tangent = calcUnitTangentVector(points, t);
   const curvatureRadius = calcCurvatureRadius(points, t);
-  const normal = [-tangent[1], tangent[0]];
   const osculatingCircleCenter = [
-    pt[0] + normal[0] * curvatureRadius,
-    pt[1] + normal[1] * curvatureRadius,
+    pt[0] - tangent[1] * curvatureRadius,
+    pt[1] + tangent[0] * curvatureRadius,
   ];
 
-  const frameLength = 75; // 接線・法線を表示するときの長さ
   const { p0, c0, c1, p1 } = points;
   const bezierCurve = <path d={`M ${p0} C ${c0} ${c1} ${p1}`} />;
+  const tangentLength = 150;
 
   return state.visibilities.bezierOnly ? (
     <g className={classes.root}>{bezierCurve}</g>
@@ -104,19 +100,10 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
       {state.visibilities.tangent && (
         <line
           className={classes.tangent}
-          x1={pt[0] - tangent[0] * frameLength}
-          y1={pt[1] - tangent[1] * frameLength}
-          x2={pt[0] + tangent[0] * frameLength}
-          y2={pt[1] + tangent[1] * frameLength}
-        />
-      )}
-      {state.visibilities.normal && (
-        <line
-          className={classes.normal}
-          x1={pt[0]}
-          y1={pt[1]}
-          x2={pt[0] + normal[0] * frameLength}
-          y2={pt[1] + normal[1] * frameLength}
+          x1={pt[0] - (tangent[0] * tangentLength) / 2}
+          y1={pt[1] - (tangent[1] * tangentLength) / 2}
+          x2={pt[0] + (tangent[0] * tangentLength) / 2}
+          y2={pt[1] + (tangent[1] * tangentLength) / 2}
         />
       )}
       {state.visibilities.osculatingCircle && (

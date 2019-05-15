@@ -28,7 +28,6 @@ export const initialState: State = {
   visibilities: {
     bezierOnly: false,
     tangent: false,
-    normal: false,
     osculatingCircle: false,
     curvatureComb: false,
   },
