@@ -3,13 +3,21 @@ import React, { useCallback } from 'react';
 
 import Handle from './Handle';
 import { useStore } from './store';
-import { calcTPoint, calcUnitTangentVector, calcCurvatureRadius } from './calc';
+import {
+  calcTPoint,
+  calcUnitTangentVector,
+  calcCurvatureRadius,
+  calcCurvatureComb,
+} from './calc';
 import { PointName } from './type';
 
 const useStyles = makeStyles({
   root: {
     fill: 'none',
     stroke: 'black',
+  },
+  curvatureComb: {
+    pointerEvents: 'none',
   },
   tangent: {
     stroke: 'blue',
@@ -26,6 +34,12 @@ const useStyles = makeStyles({
     pointerEvents: 'none',
   },
 });
+
+const curvatureToColor = (curvature: number): string => {
+  // 黄→赤 となるように適当に決めた関数
+  const hue = Math.max(65 - Math.abs(curvature) * 3000, -20);
+  return `hsl(${hue}, 100%, 50%)`;
+};
 
 // 始点 p0, 制御点 c0, c1, 終点 p1 によって定義される 3 次ベジエ曲線
 const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
@@ -55,6 +69,22 @@ const Bezier: React.FC<{ index: 0 | 1 }> = ({ index }) => {
 
   return (
     <g className={classes.root}>
+      {state.visibilities.curvatureComb && (
+        <g className={classes.curvatureComb}>
+          {calcCurvatureComb(points, 80, 2000).map(
+            ({ start, end, curvature }, i) => (
+              <line
+                key={i}
+                x1={start[0]}
+                y1={start[1]}
+                x2={end[0]}
+                y2={end[1]}
+                stroke={curvatureToColor(curvature)}
+              />
+            ),
+          )}
+        </g>
+      )}
       <path d={`M ${p0} C ${c0} ${c1} ${p1}`} />
       <Handle
         p={p0}

@@ -61,6 +61,27 @@ export const calcCurvatureRadius = (
   return numerator / denominator;
 };
 
+// 曲率の櫛。numTheeth 本の歯を持つように、t を等間隔にサンプリングして求める
+export const calcCurvatureComb = (
+  points: BezierPoints,
+  numTheeth: number,
+  scale: number,
+): Array<{ start: Point; end: Point; curvature: number }> =>
+  [...Array(numTheeth)].map((_, i) => {
+    const t = i / (numTheeth - 1); // 両端（0, 1）にも割り当てる
+    const tPoint = calcTPoint(points, t);
+    const tangent = calcUnitTangentVector(points, t);
+    const curvature = 1 / calcCurvatureRadius(points, t);
+    return {
+      start: tPoint,
+      end: v([-tangent[1], tangent[0]]) // 単位法線ベクトル
+        .multiplyScalar(-curvature * scale)
+        .add(v(tPoint))
+        .toArray() as Point,
+      curvature,
+    };
+  });
+
 // reference と target が G0 連続になるように target を調整した場合の BezierPoints を求める
 // reference.p1 と target.p0 が重なるように平行移動すればよい
 export const satisfyG0 = (
