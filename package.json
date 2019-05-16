@@ -1,5 +1,5 @@
 {
-  "name": "continuous-bezier",
+  "name": "bezier-smoothness",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
