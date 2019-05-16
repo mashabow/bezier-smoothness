@@ -40,8 +40,20 @@ const reducer: Reducer<State, Action> = (draft, action) => {
       return;
     case 'DRAG':
       if (!draft.draggingPoint) return;
-      const bezier = draft.beziers[draft.draggingPoint.index];
-      bezier.points[draft.draggingPoint.name] = action.payload;
+      const draftPoints = draft.beziers[draft.draggingPoint.index].points;
+      const name = draft.draggingPoint.name;
+      if (name === 'p0') {
+        draftPoints.c0 = [
+          draftPoints.c0[0] - draftPoints.p0[0] + action.payload[0],
+          draftPoints.c0[1] - draftPoints.p0[1] + action.payload[1],
+        ];
+      } else if (name === 'p1') {
+        draftPoints.c1 = [
+          draftPoints.c1[0] - draftPoints.p1[0] + action.payload[0],
+          draftPoints.c1[1] - draftPoints.p1[1] + action.payload[1],
+        ];
+      }
+      draftPoints[name] = action.payload;
       return;
     case 'DRAG_END':
       draft.draggingPoint = null;
