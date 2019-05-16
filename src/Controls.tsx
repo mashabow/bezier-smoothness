@@ -8,6 +8,9 @@ import Visibilities from './Visibilities';
 
 const useStyles = makeStyles({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
     // スライダ操作するとスクロールバーが表示されてしまうようなので、それを回避
     overflow: 'hidden',
   },

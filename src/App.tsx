@@ -7,7 +7,7 @@ import { useStore, Provider } from './store';
 import Bezier from './Bezier';
 import Controls from './Controls';
 
-const svgSize = 500;
+const svgSize = 600;
 
 const useStyles = makeStyles({
   root: {
