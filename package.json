@@ -2,6 +2,7 @@
   "name": "bezier-smoothness",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://mashabow.github.io/bezier-smoothness",
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/lab": "^3.0.0-alpha.30",
@@ -13,6 +14,7 @@
     "@types/react-dom": "16.8.4",
     "@types/victor": "^1.1.0",
     "classnames": "^2.2.6",
+    "gh-pages": "^2.0.1",
     "husky": "^2.2.0",
     "lint-staged": "^8.1.6",
     "prettier": "^1.17.0",
@@ -27,6 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
