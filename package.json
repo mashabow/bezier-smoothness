@@ -2,6 +2,7 @@
   "name": "bezier-smoothness",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://mashabow.github.io/bezier-smoothness",
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/lab": "^3.0.0-alpha.30",
