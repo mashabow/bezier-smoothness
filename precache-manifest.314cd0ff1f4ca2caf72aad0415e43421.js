@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "97c3d1d55588179049db36fad1f93483",
+    "revision": "aa8838f14d0b81c8b19b6252b90ff006",
     "url": "/bezier-smoothness/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bezier-smoothness/static/js/2.0c2cb165.chunk.js"
   },
   {
-    "revision": "558d6dbd9d921a1cdecf",
-    "url": "/bezier-smoothness/static/js/main.e2218505.chunk.js"
+    "revision": "006b668a3d962da9bfaf",
+    "url": "/bezier-smoothness/static/js/main.fc67abf9.chunk.js"
   },
   {
     "revision": "1a69598a698fa228fd1c",
