@@ -2,7 +2,10 @@ import Victor from 'victor';
 
 import { BezierPoints, Point } from './type';
 
-// Victor が immutable になっていなくて扱いが厄介なので、
+// 性能はまったく考慮していないので、注意
+// satisfyG* の調整も安直なアルゴリズムで実装している（もっと良い調整方法はいろいろ考えられる）
+
+// Victor が immutable になっていなくて扱いが厄介なので（つらい）、
 // 引数や返り値には Point を使っておく
 
 const v = Victor.fromArray;
