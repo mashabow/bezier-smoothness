@@ -31,8 +31,6 @@ const useStyles = makeStyles({
     width: 300,
     height: svgSize,
     padding: 20,
-    // スライダ操作するとスクロールバーが表示されてしまうようなので、それを回避
-    overflow: 'hidden',
   },
 });
 
