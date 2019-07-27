@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/bezier-smoothness/static/js/main.fc67abf9.chunk.js",
-    "main.js.map": "/bezier-smoothness/static/js/main.fc67abf9.chunk.js.map",
+    "main.js": "/bezier-smoothness/static/js/main.b398359d.chunk.js",
+    "main.js.map": "/bezier-smoothness/static/js/main.b398359d.chunk.js.map",
     "runtime~main.js": "/bezier-smoothness/static/js/runtime~main.b628eae6.js",
     "runtime~main.js.map": "/bezier-smoothness/static/js/runtime~main.b628eae6.js.map",
     "static/js/2.0c2cb165.chunk.js": "/bezier-smoothness/static/js/2.0c2cb165.chunk.js",
     "static/js/2.0c2cb165.chunk.js.map": "/bezier-smoothness/static/js/2.0c2cb165.chunk.js.map",
     "index.html": "/bezier-smoothness/index.html",
-    "precache-manifest.314cd0ff1f4ca2caf72aad0415e43421.js": "/bezier-smoothness/precache-manifest.314cd0ff1f4ca2caf72aad0415e43421.js",
+    "precache-manifest.30c1b8f92fc63b5f0206928a8002d406.js": "/bezier-smoothness/precache-manifest.30c1b8f92fc63b5f0206928a8002d406.js",
     "service-worker.js": "/bezier-smoothness/service-worker.js"
   }
 }
